@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SHEUDLING ALGORITHM</title>
+        <link rel="stylesheet" href="index.css">
+        
+    </head>
+    <body class="body">
+        <br>
+        <hr><hr>
+        <h1 id="rr">SHEUDLING ALGORITHM</h1>
+        <hr><hr><br>
+        <div id = "animation"> 
+            <h1 id="cpu1" class="c_q"><p class="cqfont">cpu to queue for remaning execution</p></p>&#8593;</h1>
+            <h1 id="cpu2" class="q_c"><p class="font">Shedulig queue to cpu</p>&#8594;</h1>
+            <h1 id="cpu3" class="q_e"><p class="cqfont">Execution completed</p></p>&#8595;</h1>
+            <div  class="cpu" id="cpu">
+               
+                <div>
+                    <h3>CPU</h3>
+                    
+                    <div class="cpu_running" id="cpu_running">
+                        
+                        <!-- <div class="Process">
+                            <p>P1</p>
+                        </div> -->
+                    </div>
+                </div>
+                                
+            </div>
+        </div>
+
+        <div class="rra">
+            <div class="details" id="details">
+                <div class="table" id="table">
+                    <div >
+                        <table id="myTable" >
+                            <thead>
+                                <tr  class="head " id="head">
+                                    <th>#</th>
+                                    <th >Process (Job)</th>
+                                    <th >Burst Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>     
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="add_row">
+                        <button class="add" onclick="addrow()">Add Process</button ><br> 
+                    </div>
+                    <div class="statistics" id="statistics">
+                        <div>
+                            <div class="graph" id="graph">
+                                <!-- <div class="main" >
+                                    <div class="inner" style="height: 100px;">
+                                        <p>P1</p>
+                                    </div>
+                                    <p class="BT">5</p>
+                                </div>
+                                <div class="main">
+                                    <div class="inner">
+                                        <p>P1</p>
+                                    </div>
+                                    <p class="BT">5</p>
+
+
+                                </div>
+                                <div class="main">
+                                    <div class="inner">
+                                        <p>P1</p>
+                                    </div>
+                                    <p class="BT">5</p>
+                                </div> -->
+                            </div>
+                            <br><hr>
+                            <h5 id ="shuffel"></h5>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="selection">
+                    <label>Select Algorith:</label>
+                    <input id="data1" list="data" onchange="get_data()">
+                    <datalist id="data">
+                        <option value="FCFS">First come First Serve</option> 
+                        <option value="SJF">Shortest Job First</option>
+                        <option value="RRA">Round Robbin Algoritm</option>
+                        <option value="PRIORITY">Priority Algoritm</option>
+                    </datalist>
+                </div>
+                <div class="quantum_div" id="quantum_div">
+                    <label for="quantum">Quantum value</label>
+                    <input class="quantum" type="number" id ="quantum" placeholder="Enter Quantum" required><br>
+                   
+                </div> 
+                <button  id ="pause" class ="reload" onclick="pause()" >Pause</button>
+                <button  id ="start" class ="reload" onclick="start()" >Start</button>
+                <button  id ="check" class ="check" onclick="check()" >Check</button>
+                <button id ="reload"  class="reload" onclick="reload()">Reload</button>
+            </div>
+            <div class="representation" id="representation">
+                <div id ="cal" class="cal">
+                    <h3><u>Calculation Part : </u></h3><br>
+                    <div id="calculation_area">
+                        
+                    </div>
+                </div>
+                <div class="Gantt_chart" id="Gantt_chart">
+                    <h2>Gantt Chart</h2>
+                    <div class="chart" id="chart">                
+                        <!-- <div class="chart_block">
+                            <p class="bt">3</p>
+                            <div class="block">
+                                <p>P1</p>
+                            </div>
+                            <div class="block_fotter">
+                                <div class="wt">
+                                    <p class="st">0</p>
+                                    <p class="lt">1</p>
+                                </div>
+                            </div>
+                        </div> -->                                    
+                    </div>   
+                </div> 
+            </div>
+            <div id="pr_table" class="pr_table">
+                <div class="p_table">
+                    <h3><u>Process Table :</u></h3><br>
+                    <table class="table_data" id="table_data">
+                        <thead>
+                            <tr class="head">
+                                <th>Process(job)</th>
+                                <th>Burst Time</th>
+                                <th>Waiting Time</th>
+                                <th>Turn Around Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                        </tbody>
+                    </table>
+                    <br><br>
+                </div>
+                <div id="result" class="result">
+    
+                </div>
+            </div>
+
+        </div>
+
+
+
+        
+       
+        <script src="index.js"></script>
+        <div class="graph">
+            
+        </div>
+        
+    </body>
+</html>

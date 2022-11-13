@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ROUND ROBBIN ALGORITHM</title>
+        <link rel="stylesheet" href="index.css">
+        
+    </head>
+    <body class="body">
+        <br>
+        <hr><hr>
+        <h1 id="rr">ROUND ROBBIN ALGORITHM</h1>
+        <hr><hr>
+        <br><br>
+        <div class="rra">
+            <div class="details" id="details">
+                <div class="table" id="table">
+                    <div >
+                        <table id="myTable" >
+                            <thead>
+                                <tr>
+                                    <th >#</th>
+                                    <th >Process (Job)</th>
+                                    <th >Burst Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>     
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <button class="add" onclick="addrow()">Add Process</button ><br> 
+                    </div>
+                </div>
+                <div class="quantum_div">
+                    <label for="quantum">Quantum value</label>
+                    <input class="quantum" type="number" id ="quantum" placeholder="Enter Quantum" required><br>
+                    <button class = "check" onclick="check()" >Check</button>
+                </div>
+                <div class="Gantt_chart" id="Gantt_chart">
+                    <h2>Gantt Chart</h2>
+                    <div class="chart" id="chart">                
+                        <!-- <div class="chart_block">
+                            <p class="bt">3</p>
+                            <div class="block">
+                                <p>P1</p>
+                            </div>
+                            <div class="block_fotter">
+                                <div class="wt">
+                                    <p class="st">0</p>
+                                    <p class="lt">1</p>
+                                </div>
+                            </div>
+                        </div> -->                                    
+                    </div>   
+                </div>  
+            </div>
+            <div id ="cal" class="cal">
+                <h3><u>Calaulation Part : </u></h3><br>
+                <div id="calculation_area">
+                    
+                </div>
+                <div id="pr_table" class="pr_table">
+                    <h3><u>Process Table :</u></h3><br>
+                    <table class="table_data" id="table_data">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Process(job)</th>
+                                <th>Burst Time</th>
+                                <th>Waiting Time</th>
+                                <th>Turn Around Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+           
+
+
+        </div>
+
+        <script>
+            var proname = "P"
+            var pronum = 0
+            var inputfieldid = "";
+            var quantum;
+            var BT =[];
+            const chart =[];
+            var Ex_queue =[];
+            var cpu=[];
+            var block =[];
+            var time =0;
+           
+            
+            const process_details = new Array(2);
+            // to add rows in table
+            function addrow(){
+                
+                BT =[];
+                block =[];
+                cpu=[];
+                pronum = pronum + 1;
+                inputfieldid = (proname + pronum.toString());
+            
+                var table = document.getElementById("myTable");
+                var row = table.insertRow(); //insert new row
+
+                var sr = row.insertCell(0);    //insert sr No cell
+                sr.innerHTML = pronum;    //insert sr No data
+
+                var process= row.insertCell(1);       //insert process cell
+                process.innerHTML = inputfieldid;    //insert process cell
+
+                var bt = row.insertCell(2);
+
+                var btinpute = document.createElement("input");   // cerating inpute filed to taje Bt inputre
+                btinpute.type = "number"; 
+                btinpute.className = "inputfield";
+                btinpute.required = true;
+                btinpute.id = inputfieldid;  //setting inpute field id
+                bt.appendChild(btinpute);  //adding input field
+            }
+
+            //function to check 
+            async function check()
+            {
+                await sleep(1000);
+                document.getElementById("details").style.width="60%"
+                document.getElementById("cal").style.display="block"
+                
+                BT=[];
+                block =[];
+                cpu=[];
+                time =0;
+                for (let index = 0; index < pronum; index++) {
+                    let id = ("P"+(index + 1)).toString();
+                    // console.log(id);
+                    let data = Number(document.getElementById(id).value)
+                    BT.push([id,data])
+                    chart.push([id,data]);
+                }
+                quantum = document.getElementById("quantum").value
+                Ex_queue = BT;
+                let index = 0;
+
+                if(quantum>0)
+                {
+                    gantt_chart();
+                    document.getElementById("Gantt_chart").style.display="block";
+                    document.getElementById("cal").style.display="block";
+
+                }
+                else{
+                    alert("Quantum Value shpuld be Greater Than Zero");
+                }
+                
+            }
+
+
+
+            function sleep(ms) 
+            {
+                return new Promise((resolve) => setTimeout(resolve, ms));
+            }
+
+            var data=[];
+            var display =[];
+            async function calculation(x,bt,rmt)
+            {
+                await sleep(1000);
+                var da = x.toLowerCase();
+
+                if(document.getElementById(da) ==null)
+                {
+                    var element = document.createElement('p');
+                    element.id=da;
+                    element.style.marginTop="10px"
+                    element.style.fontSize="20px"
+                    element.innerText =  (x) + " : = "+ bt ;
+                    document.getElementById("calculation_area").appendChild(element);
+                }
+                var find = document.getElementById(da);
+
+                if(find)
+                {
+                    let bf = bt - rmt;
+                    let remaning_time = bf ;
+                    var cal = find.innerText + "  -  " + rmt + "  =  "+ remaning_time;
+                    console.log(cal);
+                    document.getElementById(da).innerText =  cal; 
+                }
+            
+            }
+
+            async function table()
+            {
+                document.getElementById("pr_table").style.display="block";
+                var datatable = document.getElementById("table_data");
+                for(i =0;i<chart.length;i++)
+                {
+                    var insert = datatable.insertRow(); //insert new row
+
+                    var sr = insert.insertCell(0);    //insert sr No cell
+                    sr.innerHTML = (i +1);    //insert sr No data
+
+                    var process= insert.insertCell(1);       //insert process cell
+                    process.innerHTML = chart[i][0];    //insert process cell
+
+                    var burst_time = insert.insertCell(2);
+                    burst_time.innerHTML = chart[i][1];
+
+                    var Watiting_time = insert.insertCell(3);
+                    Watiting_time.innerHTML = chart[i][2];
+
+                    var TAT = insert.insertCell(4);
+                    TAT.innerHTML = chart[i][3];
+                    
+                    await sleep(1000);
+                }
+                
+
+                
+
+            }
+            async function gantt_chart()
+            {
+                var run_time =0;
+                for (let index = 0; index < Ex_queue.length; index++) {
+
+                    if(Ex_queue[index])
+                    {
+                        var extime = Number(Ex_queue[index][1]);
+                        if(extime> 0)
+                        {
+
+                            if(Ex_queue.length == 1)
+                            {
+                                quantum = extime;
+
+                            }
+                            let balance_ex = extime - quantum;
+                            run_time =0;
+                            if(balance_ex <=0)
+                            {
+
+                                run_time = run_time + extime;
+                                balance_ex =0;
+                            }
+                            else
+                            {
+                                run_time = run_time +( extime - balance_ex);
+                            }
+                            calculation(Ex_queue[index][0],Ex_queue[index][1],run_time);
+                            await sleep(1000);
+
+
+                            Ex_queue[index][1]=balance_ex;
+
+                            if(balance_ex ==0)
+                            {
+                                let w_time =0;
+                                for(i =0 ;i<cpu.length;i++)
+                                {
+                                    if(Ex_queue[index][0] == (cpu[i][0]))
+                                    {
+                                        w_time = (w_time + cpu[i][1]);
+                                    }                                                                                              
+                                }
+                                console.log(Ex_queue[index][0] + "   " + w_time);
+                                for(j=0;j<chart.length;j++)
+                                {
+                                    if(Ex_queue[index][0] == chart[j][0])
+                                    {
+                                        chart[j][2] = (time - w_time);
+                                        chart[j][3] = (time+ run_time);
+                                    }
+                                }
+                            }
+
+                            cpu.push([Ex_queue[index][0],(extime - balance_ex)]);
+                            var s = '<div class="chart_block"><p class="bt">' + cpu[(cpu.length -1 )][1] + '</p><div class="block"><p>' + cpu[(cpu.length -1 )][0]+'</p></div><div class="block_fotter"><div class="wt"><p>' + (time) +'</p><p id="'+ time +'" class="lt"></p></div></div></div>'
+                            block.push(s);
+                            document.getElementById("chart").innerHTML =block.join(" ");
+                            time = time + run_time;
+                            
+                        }
+                    }
+
+        
+
+                    await sleep(2000); 
+                    
+                    for(let pr = 0; pr<Ex_queue.length; pr++)
+                    {
+                        let num  = Number(Ex_queue[pr][1]);
+                        if(num == 0)
+                        {
+                            Ex_queue.splice(pr,1);
+                            pr--;
+                            index--;
+                        }
+                        
+                    }
+                    
+
+                }
+
+                if(Ex_queue.length !=0)
+                {
+                    gantt_chart();
+                }
+                else
+                {
+                    document.getElementById(((time - run_time).toString())).innerHTML= time;
+
+                    table();
+                }
+
+                console.log(chart);
+                
+            }
+        </script>
+        
+    </body>
+</html>
