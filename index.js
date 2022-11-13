@@ -10,6 +10,7 @@ var block =[];
 var time =0;
 var data=[];
 var display =[];
+
 var pause_value = false
 var val;
 var pr_colum = false;
